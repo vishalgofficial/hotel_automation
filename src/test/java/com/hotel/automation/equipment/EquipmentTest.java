@@ -1,10 +1,15 @@
 package com.hotel.automation.equipment;
 
+import com.hotel.automation.controller.HotelController;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.hotel.automation.equipment.State.OFF;
 import static com.hotel.automation.equipment.State.ON;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class EquipmentTest {
 
@@ -36,4 +41,19 @@ class EquipmentTest {
         assertThat(ac.getState()).isEqualTo(OFF);
     }
 
+    @Test
+    public void testMainCorridorLightsInitialState() {
+        HotelController controller = new HotelController(1, 2, 2);
+        List<Equipment> equipmentList = controller.getHotel().getFloors().get(0).getCorridors().get(0).getEquipments()
+                .stream().filter(equipment -> equipment.getType().equals(Type.LIGHT)).collect(Collectors.toList());
+        assertTrue(equipmentList.get(0).isOn());
+    }
+
+    @Test
+    public void testCorridorACsInitialState() {
+        HotelController controller = new HotelController(1, 2, 2);
+        List<Equipment> equipmentList = controller.getHotel().getFloors().get(0).getCorridors().get(0).getEquipments()
+                .stream().filter(equipment -> equipment.getType().equals(Type.AC)).collect(Collectors.toList());
+        assertTrue(equipmentList.get(0).isOn());
+    }
 }

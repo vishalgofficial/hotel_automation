@@ -1,0 +1,38 @@
+{
+  "numFloors": 1,
+  "numMainCorridors": 1,
+  "numSubCorridors": 3,
+  "mode": "NIGHT",
+  "events": [
+    {
+      "floorNumber": 1,
+      "corridorId": "SC1",
+      "movementDetected": true
+    },
+    {
+      "floorNumber": 1,
+      "corridorId": "SC2",
+      "movementDetected": true
+    },
+    {
+      "floorNumber": 1,
+      "corridorId": "SC3",
+      "movementDetected": true
+    },
+    {
+      "floorNumber": 1,
+      "corridorId": "SC1",
+      "movementDetected": false
+    },
+    {
+      "floorNumber": 1,
+      "corridorId": "SC2",
+      "movementDetected": false
+    },
+    {
+      "floorNumber": 1,
+      "corridorId": "SC3",
+      "movementDetected": false
+    }
+  ]
+}

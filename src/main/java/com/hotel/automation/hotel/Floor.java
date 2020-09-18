@@ -43,11 +43,11 @@ public class Floor {
         return getMainCorridorsSize() * 15 + getSubCorridorsSize() * 10;
     }
 
-    public long getMainCorridorsSize() {
-        return corridors.stream().filter(corridor -> corridor instanceof MainCorridor).count();
+    public int getMainCorridorsSize() {
+        return (int) corridors.stream().filter(corridor -> corridor instanceof MainCorridor).count();
     }
 
-    public long getSubCorridorsSize() {
-        return corridors.stream().filter(corridor -> corridor instanceof SubCorridor).count();
+    public int getSubCorridorsSize() {
+        return (int) corridors.stream().filter(corridor -> corridor instanceof SubCorridor).count();
     }
 }
