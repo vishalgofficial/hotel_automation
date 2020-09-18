@@ -9,10 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import static com.hotel.automation.equipment.Type.AC;
-import static com.hotel.automation.equipment.Type.LIGHT;
-import static java.util.stream.Collectors.toList;
-
 @Setter
 @Getter
 public abstract class Corridor {
