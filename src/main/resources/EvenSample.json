@@ -1,0 +1,12 @@
+{
+  "numFloors": 1,
+  "numMainCorridors": 1,
+  "numSubCorridors": 2,
+  "events": [
+    {
+      "floorNumber": 1,
+      "corridorId": "SubCorridor1",
+      "movementDetected": true
+    }
+  ]
+}
