@@ -3,6 +3,7 @@ package com.hotel.automation.controller;
 import com.hotel.automation.corridors.Corridor;
 import com.hotel.automation.corridors.MainCorridor;
 import com.hotel.automation.corridors.SubCorridor;
+import com.hotel.automation.equipment.Equipment;
 import com.hotel.automation.hotel.Floor;
 import com.hotel.automation.hotel.Hotel;
 import com.hotel.automation.listener.Event;
@@ -93,11 +94,6 @@ class HotelControllerTest {
 
     @Test
     public void testCompensatePowerConsumption() {
-        events = new ArrayList<>();
-        Event event = new Event();
-        event.setFloorNumber(1);
-        event.setCorridorId("SubCorridor1");
-        event.setMovementDetected(true);
         HotelController hotelController = new HotelController(1, 1, 1);
         hotelController.actOnMovementEvent(events);
         Floor floor = hotelController.getHotel().getFloors().get(0);
@@ -144,5 +140,19 @@ class HotelControllerTest {
         assertEquals(0, hotel.getFloors().get(0).getPowerDifference());
     }
 
-
+    @Test
+    public void WhenPowerConsumptionExceededTurnOffLightAndACOfOtherCorridor() {
+        List<Event> events = new ArrayList<>();
+        Event event = new Event();
+        event.setFloorNumber(1);
+        event.setCorridorId("SubCorridor1");
+        event.setMovementDetected(true);
+        events.add(event);
+        HotelController hotelController = new HotelController(1, 1, 2);
+        hotelController.actOnMovementEvent(events);
+        List<Equipment> equipmentList = hotelController.getHotel().getFloorByNumber(1).get().getCorridorById("SubCorridor2").get().getEquipments();
+        equipmentList.forEach(equipment -> {
+            assertTrue(equipment.getState().equals(OFF));
+        });
+    }
 }
