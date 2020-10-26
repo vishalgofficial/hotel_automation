@@ -20,6 +20,8 @@ public class FunctionalTest {
         EventHandler eventHandler = readSettingsFromFile("input1.json");
         executeUseCase(eventHandler);
         hotelController.actOnMovementEvent(eventHandler.getEvents());
+        //Unregister the sensor events
+        hotelController.unregisterFromSensorEvents();
     }
 
     @Test
@@ -27,6 +29,8 @@ public class FunctionalTest {
         EventHandler eventHandler = readSettingsFromFile("input2.json");
         executeUseCase(eventHandler);
         hotelController.actOnMovementEvent(eventHandler.getEvents());
+        //Unregister the sensor events
+        hotelController.unregisterFromSensorEvents();
     }
 
     @Test

@@ -4,6 +4,7 @@ import com.hotel.automation.corridors.Corridor;
 import com.hotel.automation.corridors.MainCorridor;
 import com.hotel.automation.corridors.SubCorridor;
 import com.hotel.automation.equipment.Equipment;
+import com.hotel.automation.equipment.Type;
 import com.hotel.automation.hotel.Floor;
 import com.hotel.automation.hotel.Hotel;
 
@@ -16,46 +17,55 @@ import static java.util.stream.Collectors.toList;
 
 public class PrintUtil {
 
+    private static final String MAIN_CORRIDOR_ = "Main corridor ";
+    private static final String SUB_CORRIDOR = "Sub corridor ";
+
     public static void printHotelInfo(Hotel hotel) {
-        hotel.getFloors().forEach(floor -> printFloorInfo(floor));
+        hotel.getFloors().forEach(PrintUtil::printFloorInfo);
         System.out.println(">>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<");
     }
 
     private static void printFloorInfo(Floor floor) {
         System.out.println("              Floor " + floor.getFloorNumber());
         List<Corridor> corridors = floor.getCorridors();
-        List<Corridor> mainCorridors = corridors.stream()
-                .filter(corridor -> corridor instanceof MainCorridor)
-                .collect(Collectors.toList());
-        List<Corridor> subCorridors = corridors.stream()
-                .filter(corridor -> corridor instanceof SubCorridor)
-                .collect(Collectors.toList());
-        mainCorridors.forEach(mainCorridor -> {
-            System.out.print("Main corridor " + (mainCorridors.indexOf(mainCorridor) + 1));
-            printCorridorInfo(mainCorridor);
-            System.out.println();
-        });
-
-        subCorridors.forEach(subCorridor -> {
-            System.out.print("Sub corridor " + (subCorridors.indexOf(subCorridor) + 1));
-            printCorridorInfo(subCorridor);
-            System.out.println();
-        });
-
+        printCorridorInfo(extractMainCorridors(corridors), MAIN_CORRIDOR_);
+        printCorridorInfo(extractSubCorridors(corridors), SUB_CORRIDOR);
         System.out.println("Power consumption is " + floor.getPowerConsumption() + " units");
     }
 
-    public static void printCorridorInfo(Corridor corridor) {
-        List<Equipment> lights = corridor.getEquipments().stream()
-                .filter(equipment -> equipment.getType() == LIGHT).collect(toList());
-        List<Equipment> acs = corridor.getEquipments().stream()
-                .filter(equipment -> equipment.getType() == AC).collect(toList());
-
-        lights.forEach(light -> {
-            System.out.print(" " + light.getType() + " " + (lights.indexOf(light) + 1) + " : " + light.getState());
+    private static void printCorridorInfo(List<Corridor> corridors, String typeOfCorridor) {
+        corridors.forEach(mainCorridor -> {
+            System.out.print(typeOfCorridor + (corridors.indexOf(mainCorridor) + 1));
+            printCorridorInfo(mainCorridor);
+            System.out.println();
         });
-        acs.forEach(ac -> {
-            System.out.print(" " + ac.getType() + " " + (acs.indexOf(ac) + 1) + " : " + ac.getState());
+    }
+
+    private static List<Corridor> extractSubCorridors(List<Corridor> corridors) {
+        return corridors.stream()
+                .filter(corridor -> corridor instanceof SubCorridor)
+                .collect(Collectors.toList());
+    }
+
+    private static List<Corridor> extractMainCorridors(List<Corridor> corridors) {
+        return corridors.stream()
+                .filter(corridor -> corridor instanceof MainCorridor)
+                .collect(Collectors.toList());
+    }
+
+    public static void printCorridorInfo(Corridor corridor) {
+        showEquipmentStateDetails(getEquipmentLight(corridor, LIGHT));
+        showEquipmentStateDetails(getEquipmentLight(corridor, AC));
+    }
+
+    private static List<Equipment> getEquipmentLight(Corridor corridor, Type equipmentType) {
+        return corridor.getEquipments().stream()
+                .filter(equipment -> equipment.getType() == equipmentType).collect(toList());
+    }
+
+    private static void showEquipmentStateDetails(List<Equipment> equipmentList) {
+        equipmentList.forEach(light -> {
+            System.out.print(" " + light.getType() + " " + (equipmentList.indexOf(light) + 1) + " : " + light.getState());
         });
     }
 }

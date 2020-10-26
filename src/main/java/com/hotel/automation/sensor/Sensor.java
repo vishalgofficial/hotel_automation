@@ -37,4 +37,8 @@ public abstract class Sensor {
                 });
     }
 
+    public void unregisterListener() {
+        this.eventListener = null;
+    }
+
 }

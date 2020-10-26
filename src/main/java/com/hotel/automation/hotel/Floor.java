@@ -14,6 +14,7 @@ import java.util.Optional;
 @Setter
 public class Floor {
     private int floorNumber;
+    private long powerDifference;
     private List<Corridor> corridors = new ArrayList<>();
 
     public Floor(int floorNumber) {
@@ -49,5 +50,13 @@ public class Floor {
 
     public int getSubCorridorsSize() {
         return (int) corridors.stream().filter(corridor -> corridor instanceof SubCorridor).count();
+    }
+
+    public long getPowerDifference() {
+        return powerDifference;
+    }
+
+    public void setPowerDifference(long powerDifference) {
+        this.powerDifference = powerDifference;
     }
 }

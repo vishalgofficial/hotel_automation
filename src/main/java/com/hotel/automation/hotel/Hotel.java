@@ -16,7 +16,7 @@ import static com.hotel.automation.equipment.Type.LIGHT;
 import static java.util.stream.IntStream.range;
 
 public class Hotel {
-    private List<Floor> floors = new ArrayList<Floor>();
+    private List<Floor> floors = new ArrayList<>();
 
     public Hotel(int floorCount, int mainCorridorCount, int subCorridorCount) {
         createFloor(floorCount);
@@ -27,15 +27,20 @@ public class Hotel {
     }
 
     private void createFloor(int floorCount) {
-        range(0, floorCount).forEach(i -> floors.add(new Floor(i + 1)));
+        range(0, floorCount)
+                .forEach(i -> floors.add(new Floor(i + 1)));
     }
 
     private void createMainCorridorForEachFloor(int mainCorridorCount) {
-        floors.forEach(floor -> range(0, mainCorridorCount).mapToObj(i -> new MainCorridor(i + 1)).forEach(floor::addCorridors));
+        floors.forEach(floor -> range(0, mainCorridorCount)
+                .mapToObj(i -> new MainCorridor(i + 1))
+                .forEach(floor::addCorridors));
     }
 
     private void createSubCorridorForEachFloor(int subCorridorCount) {
-        floors.forEach(floor -> range(0, subCorridorCount).mapToObj(i -> new SubCorridor(i + 1)).forEach(floor::addCorridors));
+        floors.forEach(floor -> range(0, subCorridorCount)
+                .mapToObj(i -> new SubCorridor(i + 1))
+                .forEach(floor::addCorridors));
 
     }
 
